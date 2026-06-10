@@ -1,22 +1,19 @@
-# Smart Parking: Dynamic Pricing System with ML
+# Smart Parking: Dynamic Pricing System
 
 ## Overview
 
-This project implements a **dynamic pricing system for urban parking lots** using historical and real-time demand signals. Built in three progressive stages — from a simple rule-based baseline to a fully trained ML pipeline with explainability — the system predicts optimal parking prices based on occupancy, traffic, vehicle type, queue length, and time-of-day patterns.
+This project implements a **dynamic pricing system for urban parking lots** using historical and real-time demand signals. Built in two progressive stages — from a simple rule-based baseline to a context-aware demand scoring model — the system computes optimal parking prices based on occupancy, traffic, vehicle type, queue length, and time-of-day patterns.
 
 ---
 
 ## Tech Stack
 
 - **Python 3**
-- **Google Colab / VS Code** – Notebook-based development
+- **Google Colab ** – Notebook-based development
 - **Pandas** – Data preprocessing and feature engineering
-- **Scikit-learn** – Linear Regression, Random Forest, train/test split, evaluation metrics
-- **XGBoost** – Gradient boosted model for price prediction
-- **SHAP** – Model explainability and feature importance
+- **Pathway** – Stream simulation and real-time pipeline execution
 - **Bokeh** – Interactive time-series and scatter visualizations
-- **Pathway** – Stream simulation and real-time pipeline execution (Models 1 & 2)
-- **Matplotlib** – SHAP plots and bar charts
+- **Matplotlib** – Bar charts and pricing plots
 
 ---
 
@@ -63,32 +60,6 @@ Price = BASE_PRICE * (1 + λ * NormDemand)
 
 ---
 
-### Model 3: ML-Based Price Prediction (`Model_3.ipynb`)
-
-Uses Model 2's computed prices as training labels and trains three ML models to learn the pricing pattern from 8 engineered features. Adds two new time-based features on top of Model 2.
-
-**Features:** `OccRatio`, `QueueLength`, `TrafficNum`, `VehicleWeight`, `IsSpecialDay`, `DemandScore`, `Hour`, `IsWeekend`
-
-**Model Comparison Results:**
-
-| Model | RMSE | MAE | R² |
-|---|---|---|---|
-| Linear Regression | 0.5942 | 0.2400 | 0.9267 |
-| Random Forest | 0.0041 | 0.0005 | 1.0000 |
-| XGBoost | 0.0133 | 0.0089 | 1.0000 |
-
-**Best model: Random Forest (R² = 1.00, RMSE = 0.004)**
-
-**SHAP Feature Importance:**
-
-![SHAP Summary](visuals/shap_summary.png)
-
-![SHAP Bar Chart](visuals/shap_bar.png)
-
-**Top pricing drivers (SHAP):** DemandScore → VehicleWeight → OccRatio
-
----
-
 ## Lot-wise Pricing Visualization
 
 **Price Comparison Across Lots (Model 2):**
@@ -97,7 +68,7 @@ Uses Model 2's computed prices as training labels and trains three ML models to 
 
 ---
 
-## Pathway Integration (Models 1 & 2)
+## Pathway Integration
 
 - **Used for**: Defining streaming schema, loading data into Pathway tables, applying transformations using `pw.apply`, and executing the full pipeline via `pw.run()`
 - **Benefit**: Enables a stream-processing mindset — the same pipeline logic can extend to live sensor data with minimal changes
@@ -110,12 +81,10 @@ Uses Model 2's computed prices as training labels and trains three ML models to 
 .
 ├── model1_FINAL.ipynb          # Baseline occupancy-based pricing (Pathway)
 ├── Final_Model2.ipynb          # Context-aware demand score pricing (Pathway)
-├── Model_3.ipynb               # ML models + SHAP explainability
 ├── dataset.csv                 # Raw parking dataset
 ├── visuals/
-│   ├── actual_vs_predicted.png
-│   ├── shap_summary.png
-│   └── shap_bar.png
+│   ├── model2_price.png
+│   └── price_comparison.png
 └── README.md
 ```
 
@@ -125,7 +94,6 @@ Uses Model 2's computed prices as training labels and trains three ML models to 
 
 - **Real-Time Sensor Integration**: Replace CSV input with live parking sensor APIs
 - **Streamlit Dashboard**: Deploy pricing predictions as an interactive web app
-- **LSTM/ARIMA Forecasting**: Add time-series demand forecasting on top of the ML layer
 
 ## Future Enhancements
 
@@ -133,9 +101,6 @@ Uses Model 2's computed prices as training labels and trains three ML models to 
 - Competitive pricing model comparing nearby lots
 - Integration into a mobile or dashboard app
 
----
+# Smart Parking: Dynamic Pricing System
 
-## Author
-
-- Ajith S — IIT Madras
-- GitHub: [srajit1204-del](https://github.com/srajit1204-del)
+**Author:** Vamsi D
